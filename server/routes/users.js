@@ -19,5 +19,23 @@ router.post('/', (req, res) => {
     res.json({ id: result.insertId, message: 'User registered successfully' });
   });
 });
+// PUT - update user
+router.put('/:id', (req, res) => {
+  const { id } = req.params;
+  const { name, email, role } = req.body;
+  const sql = 'UPDATE users SET name=?, email=?, role=? WHERE id=?';
+  db.query(sql, [name, email, role, id], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ message: 'User updated successfully' });
+  });
+});
 
+// DELETE user
+router.delete('/:id', (req, res) => {
+  const { id } = req.params;
+  db.query('DELETE FROM users WHERE id=?', [id], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ message: 'User deleted successfully' });
+  });
+});
 module.exports = router;

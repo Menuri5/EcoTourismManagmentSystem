@@ -24,5 +24,23 @@ router.post('/', (req, res) => {
     res.json({ id: result.insertId, message: 'Donation recorded successfully' });
   });
 });
+// PUT - update donation
+router.put('/:id', (req, res) => {
+  const { id } = req.params;
+  const { amount, purpose } = req.body;
+  const sql = 'UPDATE donations SET amount=?, purpose=? WHERE id=?';
+  db.query(sql, [amount, purpose, id], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ message: 'Donation updated successfully' });
+  });
+});
 
+// DELETE donation
+router.delete('/:id', (req, res) => {
+  const { id } = req.params;
+  db.query('DELETE FROM donations WHERE id=?', [id], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ message: 'Donation deleted successfully' });
+  });
+});
 module.exports = router;

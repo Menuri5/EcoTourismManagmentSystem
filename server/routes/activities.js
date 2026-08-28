@@ -24,5 +24,23 @@ router.post('/', (req, res) => {
     res.json({ id: result.insertId, message: 'Activity added successfully' });
   });
 });
+// PUT - update activity
+router.put('/:id', (req, res) => {
+  const { id } = req.params;
+  const { activity_name, description } = req.body;
+  const sql = 'UPDATE activities SET activity_name=?, description=? WHERE id=?';
+  db.query(sql, [activity_name, description, id], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ message: 'Activity updated successfully' });
+  });
+});
 
+// DELETE activity
+router.delete('/:id', (req, res) => {
+  const { id } = req.params;
+  db.query('DELETE FROM activities WHERE id=?', [id], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ message: 'Activity deleted successfully' });
+  });
+});
 module.exports = router;

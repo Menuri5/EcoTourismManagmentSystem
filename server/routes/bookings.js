@@ -25,5 +25,23 @@ router.post('/', (req, res) => {
     res.json({ id: result.insertId, message: 'Booking created successfully' });
   });
 });
+// PUT - update booking status
+router.put('/:id', (req, res) => {
+  const { id } = req.params;
+  const { status, number_of_people } = req.body;
+  const sql = 'UPDATE bookings SET status=?, number_of_people=? WHERE id=?';
+  db.query(sql, [status, number_of_people, id], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ message: 'Booking updated successfully' });
+  });
+});
 
+// DELETE booking
+router.delete('/:id', (req, res) => {
+  const { id } = req.params;
+  db.query('DELETE FROM bookings WHERE id=?', [id], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ message: 'Booking deleted successfully' });
+  });
+});
 module.exports = router;
