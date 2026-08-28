@@ -15,6 +15,11 @@ app.use('/api/users', userRoutes);
 
 const bookingRoutes = require('./routes/bookings');
 app.use('/api/bookings', bookingRoutes);
+const activityRoutes = require('./routes/activities');
+app.use('/api/activities', activityRoutes);
+
+const donationRoutes = require('./routes/donations');
+app.use('/api/donations', donationRoutes);
 app.get('/api/test', (req, res) => {
   res.json({ message: 'Backend eka hariyata run wenawa!' });
 });
